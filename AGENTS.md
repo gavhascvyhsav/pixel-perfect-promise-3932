@@ -28,3 +28,9 @@ use the editor.
   own key and store it in Secrets.
 - **Secrets.** Lovable manages them. Do not put secret values in the repo.
 <!-- LOVABLE:END -->
+
+## Application architecture
+- Keep domain meal alternatives and indicative workout schedules in a shared browser-safe module so UI and rule tests use the same logic.
+- Store all personal records in owner-scoped Cloud tables; anonymous browsing shows only illustrative content, never user records.
+- Use a single root session subscriber and query-cache teardown on sign-out to prevent stale private data.
+- Home-screen installation uses manifest-only metadata; reminders operate only while the app is open, without claiming background push support.
