@@ -1,23 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
-
-// The home route ships no og:image, so serve-time hosting can inject the
-// project's social preview (explicit og:image or latest screenshot).
-export const Route = createFileRoute("/")({
-  component: Index,
-});
-
-// IMPORTANT: Replace this placeholder. See ./README.md for routing conventions.
-function Index() {
-  return (
-    <div
-      className="flex min-h-screen items-center justify-center"
-      style={{ backgroundColor: "#fcfbf8" }}
-    >
-      <img
-        data-lovable-blank-page-placeholder="REMOVE_THIS"
-        src="https://cdn.gpteng.co/blank-app-v1.svg"
-        alt="Your app will live here!"
-      />
-    </div>
-  );
-}
+import {createFileRoute,Link} from '@tanstack/react-router'
+import {Sun,Utensils,Droplets,Dumbbell,Moon,ArrowRight,Leaf,BookOpen} from 'lucide-react'
+import {Button} from '@/components/ui/button'
+import {useBalance} from '@/components/balance-provider'
+import {PageHeading,MealCard,WaterPanel,MoodPicker,WeekStrip,SafetyNote,SectionLink,pageHead} from '@/components/balance-widgets'
+import {workoutPlan} from '@/lib/balance'
+import wellbeing from '@/assets/wellbeing.jpg'
+export const Route=createFileRoute('/')({head:()=>pageHead('La tua giornata','Pasti, movimento e piccoli gesti di benessere nel tuo diario personale.'),component:Index})
+function Index(){const {user,profile,date,entries,meals,workouts}=useBalance();const entry=entries.find(e=>e.date===date),completed=meals.filter(m=>m.date===date&&m.completed).length,workout=workouts.find(w=>w.date===date),plan=workoutPlan(date);return <><PageHeading eyebrow="UN NUOVO GIORNO, UN PICCOLO PASSO" title={`Ciao${user&&profile?.name?', '+profile.name:''}, come stai? ☀️`} subtitle="Prenditi cura di te, con i tuoi tempi. Oggi si riparte da qui."/><section className="welcome-band"><div className="welcome-icon"><Leaf/></div><div className="welcome-text"><span className="badge"><Sun className="size-3"/> IL TUO BENESSERE CONTA</span><h2>Non serve essere perfetti. Basta esserci.</h2><p>Un pasto alla volta, un po’ di movimento e un momento per te.<br/>Le piccole abitudini di oggi costruiscono il benessere di domani.</p></div><Button variant="outline" asChild><Link to="/diario">Il mio diario<ArrowRight/></Link></Button></section><div className="section-header"><h2>La giornata, in breve</h2><span className="badge neutral">{date===new Date().toLocaleDateString('sv-SE')?'Oggi':'Giorno selezionato'}</span></div><div className="stats-grid"><div className="stat-card"><div className="stat-top">Pasti completati<span className="stat-icon"><Utensils/></span></div><div className="stat-value">{completed}<small>/ 5 pasti</small></div><div className="thin-progress"><progress value={completed} max={5}/></div><div className="stat-caption">Ogni pasto è un momento per te</div></div><div className="stat-card water"><div className="stat-top">Acqua bevuta<span className="stat-icon"><Droplets/></span></div><div className="stat-value">{entry?.water??0}<small>bicchieri</small></div><div className="stat-caption">Un sorso alla volta</div></div><div className="stat-card movement"><div className="stat-top">Movimento<span className="stat-icon"><Dumbbell/></span></div><div className="stat-value">{workout?.duration??entry?.duration??0}<small>minuti</small></div><div className="stat-caption">{workout?.completed?'Attività completata':'Al tuo ritmo, senza fretta'}</div></div><div className="stat-card sleep"><div className="stat-top">Riposo<span className="stat-icon"><Moon/></span></div><div className="stat-value">{entry?.sleep??'—'}<small>ore di sonno</small></div><div className="stat-caption">Anche riposare è prendersi cura di sé</div></div></div><div className="dashboard-grid"><div><div className="section-header"><h2><Utensils/>I pasti di oggi</h2><SectionLink to="/alimentazione" label="Vedi il menu"/></div><div className="meal-list">{[0,1,2,3,4].map(slot=><MealCard key={date+slot} slot={slot}/>)}</div><SafetyNote/><section className="week-section"><WeekStrip/></section></div><div className="right-column"><WaterPanel/><section><div className="section-header"><h2><Dumbbell/>Il movimento di oggi</h2></div><div className="movement-panel"><img src={wellbeing} alt="Una bicicletta lungo un sentiero nel parco"/><div className="movement-overlay"><span className="badge">{workout?.completed?'Completato':'Al tuo ritmo'}</span><h3>{workout?.title||plan.title}</h3><p>Un momento per muoverti e stare bene.</p><SectionLink to="/allenamento" label="La mia attività"/></div></div></section><section className="journal-panel"><h3>Come ti senti oggi?</h3><p>Ascoltarti è già un buon inizio.</p><MoodPicker/><SectionLink to="/diario" label="Racconta la tua giornata"/></section></div></div></>}
