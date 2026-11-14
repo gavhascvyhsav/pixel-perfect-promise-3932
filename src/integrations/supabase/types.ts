@@ -14,7 +14,171 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      daily_entries: {
+        Row: {
+          activity: string
+          date: string
+          duration: number
+          id: string
+          mood: string
+          notes: string
+          sleep: number
+          user_id: string
+          water: number
+        }
+        Insert: {
+          activity?: string
+          date: string
+          duration?: number
+          id?: string
+          mood?: string
+          notes?: string
+          sleep?: number
+          user_id: string
+          water?: number
+        }
+        Update: {
+          activity?: string
+          date?: string
+          duration?: number
+          id?: string
+          mood?: string
+          notes?: string
+          sleep?: number
+          user_id?: string
+          water?: number
+        }
+        Relationships: [
+          {
+            foreignKeyName: "daily_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      meal_entries: {
+        Row: {
+          completed: boolean
+          consumed: string
+          date: string
+          dish_id: string
+          id: string
+          professional_portion: string
+          slot: number
+          time: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          consumed?: string
+          date: string
+          dish_id: string
+          id?: string
+          professional_portion?: string
+          slot: number
+          time?: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          consumed?: string
+          date?: string
+          dish_id?: string
+          id?: string
+          professional_portion?: string
+          slot?: number
+          time?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "meal_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      profiles: {
+        Row: {
+          age: number
+          created_at: string
+          height: number
+          id: string
+          initial_weight: number
+          name: string
+          preferences: Json
+          professional_notes: string
+          sex: string
+        }
+        Insert: {
+          age?: number
+          created_at?: string
+          height?: number
+          id: string
+          initial_weight?: number
+          name?: string
+          preferences?: Json
+          professional_notes?: string
+          sex?: string
+        }
+        Update: {
+          age?: number
+          created_at?: string
+          height?: number
+          id?: string
+          initial_weight?: number
+          name?: string
+          preferences?: Json
+          professional_notes?: string
+          sex?: string
+        }
+        Relationships: []
+      }
+      workout_entries: {
+        Row: {
+          completed: boolean
+          date: string
+          duration: number
+          exercises: string
+          id: string
+          notes: string
+          title: string
+          user_id: string
+        }
+        Insert: {
+          completed?: boolean
+          date: string
+          duration?: number
+          exercises?: string
+          id?: string
+          notes?: string
+          title: string
+          user_id: string
+        }
+        Update: {
+          completed?: boolean
+          date?: string
+          duration?: number
+          exercises?: string
+          id?: string
+          notes?: string
+          title?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workout_entries_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
     }
     Views: {
       [_ in never]: never
