@@ -10,33 +10,63 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as AlimentazioneRouteImport } from './routes/alimentazione'
+import { Route as AllenamentoRouteImport } from './routes/allenamento'
+import { Route as DiarioRouteImport } from './routes/diario'
 
 const IndexRoute = IndexRouteImport.update({
   id: '/',
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AlimentazioneRoute = AlimentazioneRouteImport.update({
+  id: '/alimentazione',
+  path: '/alimentazione',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AllenamentoRoute = AllenamentoRouteImport.update({
+  id: '/allenamento',
+  path: '/allenamento',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DiarioRoute = DiarioRouteImport.update({
+  id: '/diario',
+  path: '/diario',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/alimentazione': typeof AlimentazioneRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/diario': typeof DiarioRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/alimentazione': typeof AlimentazioneRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/diario': typeof DiarioRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
+  '/alimentazione': typeof AlimentazioneRoute
+  '/allenamento': typeof AllenamentoRoute
+  '/diario': typeof DiarioRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths: '/' | '/alimentazione' | '/allenamento' | '/diario'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to: '/' | '/alimentazione' | '/allenamento' | '/diario'
+  id: '__root__' | '/' | '/alimentazione' | '/allenamento' | '/diario'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
+  AlimentazioneRoute: typeof AlimentazioneRoute
+  AllenamentoRoute: typeof AllenamentoRoute
+  DiarioRoute: typeof DiarioRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -48,11 +78,35 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/alimentazione': {
+      id: '/alimentazione'
+      path: '/alimentazione'
+      fullPath: '/alimentazione'
+      preLoaderRoute: typeof AlimentazioneRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/allenamento': {
+      id: '/allenamento'
+      path: '/allenamento'
+      fullPath: '/allenamento'
+      preLoaderRoute: typeof AllenamentoRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/diario': {
+      id: '/diario'
+      path: '/diario'
+      fullPath: '/diario'
+      preLoaderRoute: typeof DiarioRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
+  AlimentazioneRoute: AlimentazioneRoute,
+  AllenamentoRoute: AllenamentoRoute,
+  DiarioRoute: DiarioRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
